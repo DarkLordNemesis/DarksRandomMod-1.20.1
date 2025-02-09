@@ -1,5 +1,6 @@
 package net.DarkLordNemesis.DarksRandomMod.item.custom;
 
+import net.DarkLordNemesis.DarksRandomMod.util.ModTags;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.core.BlockPos;
@@ -73,6 +74,6 @@ public class MetalDetectorItem extends Item {
     }
 
     private boolean isValuableBlock(BlockState state) {
-        return state.is(Blocks.IRON_ORE);
+        return state.is(ModTags.Blocks.METAL_DETECTOR_VALUABLES);
     }
 }
