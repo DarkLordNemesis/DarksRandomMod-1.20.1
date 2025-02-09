@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "all": "darks_random_mod:block/raw_sapphire_block"
+  }
+}
