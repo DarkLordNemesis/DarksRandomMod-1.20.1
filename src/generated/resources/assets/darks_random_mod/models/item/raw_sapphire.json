@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "darks_random_mod:item/raw_sapphire"
+  }
+}

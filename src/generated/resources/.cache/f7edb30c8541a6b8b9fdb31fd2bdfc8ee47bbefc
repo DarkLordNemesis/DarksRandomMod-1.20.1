@@ -1,0 +1,4 @@
+// 1.20.1	2025-02-10T18:41:42.818961	Tags for minecraft:block mod id darks_random_mod
+9ce096093cbe6020c8ec30ebfa0a52663a5ddabd data/darks_random_mod/tags/blocks/metal_detector_valuables.json
+0f6d437cd3257c50892a873015c170d1c8c098f0 data/minecraft/tags/blocks/mineable/pickaxe.json
+5d556cc1f4a4c93cff4c314636ff5a76a555a1bd data/minecraft/tags/blocks/needs_iron_tool.json

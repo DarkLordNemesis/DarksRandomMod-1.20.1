@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "darks_random_mod:block/sound_block"
+    }
+  }
+}
