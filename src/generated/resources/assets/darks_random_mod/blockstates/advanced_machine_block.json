@@ -1,0 +1,8 @@
+{
+  "variants": {
+    "facing=north": { "model": "darks_random_mod:block/advanced_machine_block" },
+    "facing=east": { "model": "darks_random_mod:block/advanced_machine_block", "y": 90 },
+    "facing=south": { "model": "darks_random_mod:block/advanced_machine_block", "y": 180 },
+    "facing=west": { "model": "darks_random_mod:block/advanced_machine_block", "y": 270 }
+  }
+}

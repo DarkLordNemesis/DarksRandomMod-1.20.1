@@ -30,6 +30,9 @@ public class ModCreativeModeTabs {
 
                         output.accept(ModBlocks.SOUND_BLOCK.get());
 
+                        output.accept(ModBlocks.MACHINE_BLOCK.get());
+                        output.accept(ModBlocks.ADVANCED_MACHINE_BLOCK.get());
+
                     })
                     .build());
 

@@ -1,4 +1,6 @@
-// 1.20.1	2025-02-10T18:41:42.8179599	Loot Tables
+// 1.20.1	2025-02-15T20:51:55.2403049	Loot Tables
+c4f4becacaa0f21462c41cd91862eb660fc806b5 data/darks_random_mod/loot_tables/blocks/advanced_machine_block.json
+8e3f7c82d9c0bfea0bc4f4ff1f0f7516223f73a8 data/darks_random_mod/loot_tables/blocks/machine_block.json
 55cc41297eb86e68c98087393450b1ad94460008 data/darks_random_mod/loot_tables/blocks/raw_sapphire_block.json
 4eae244a1822a55c824e9ac8fa5fc40bb0a47cb3 data/darks_random_mod/loot_tables/blocks/sapphire_block.json
 073035b374e7ca1925393a4aa630748f18c155bc data/darks_random_mod/loot_tables/blocks/sound_block.json

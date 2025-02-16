@@ -2,8 +2,12 @@ package net.DarkLordNemesis.DarksRandomMod;
 
 import com.mojang.logging.LogUtils;
 import net.DarkLordNemesis.DarksRandomMod.block.ModBlocks;
+import net.DarkLordNemesis.DarksRandomMod.block.entity.ModBlockEntities;
 import net.DarkLordNemesis.DarksRandomMod.item.ModCreativeModeTabs;
 import net.DarkLordNemesis.DarksRandomMod.item.ModItems;
+import net.DarkLordNemesis.DarksRandomMod.screen.AdvancedMachineBlockScreen;
+import net.DarkLordNemesis.DarksRandomMod.screen.ModMenuTypes;
+import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
@@ -34,6 +38,9 @@ public class DarksRandomMod {
 
         ModItems.register(modEventBus);
         ModBlocks.register(modEventBus);
+
+        ModBlockEntities.register(modEventBus);
+        ModMenuTypes.register(modEventBus);
 
         modEventBus.addListener(this::commonSetup);
 
@@ -67,6 +74,7 @@ public class DarksRandomMod {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
 
+            MenuScreens.register(ModMenuTypes.ADVACNED_MACHINE_BLOCK_MENU.get(), AdvancedMachineBlockScreen::new);
         }
     }
 }

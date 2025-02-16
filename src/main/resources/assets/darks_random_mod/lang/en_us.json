@@ -10,7 +10,14 @@
 
   "block.darks_random_mod.sound_block": "Sound Block",
 
-  "creativetab.tutorial_tab": "Sapphire Tutorial Tab",
+  "block.darks_random_mod.machine_block": "Machine Block",
+  "block.darks_random_mod.advanced_machine_block": "Advanced Machine Block",
 
-  "tooltip.darks_random_mod.MetalDetectorItem.tooltip": "Finds Valuables Hidden underground"
+
+
+
+
+  "tooltip.darks_random_mod.MetalDetectorItem.tooltip": "Finds Valuables Hidden underground",
+
+  "creativetab.tutorial_tab": "Sapphire Tutorial Tab"
 }

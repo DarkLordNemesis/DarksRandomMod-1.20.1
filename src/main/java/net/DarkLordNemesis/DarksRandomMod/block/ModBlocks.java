@@ -1,11 +1,11 @@
 package net.DarkLordNemesis.DarksRandomMod.block;
 
 import net.DarkLordNemesis.DarksRandomMod.DarksRandomMod;
+import net.DarkLordNemesis.DarksRandomMod.block.custom.AdvancedMachineBlock;
 import net.DarkLordNemesis.DarksRandomMod.block.custom.SoundBlock;
 import net.DarkLordNemesis.DarksRandomMod.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.AmethystBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.SoundType;
@@ -30,6 +30,13 @@ public static final RegistryObject<Block> SAPPHIRE_BLOCK = registerBlock("sapphi
 
     public static final RegistryObject<Block> SOUND_BLOCK = registerBlock("sound_block",
             () -> new SoundBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<Block> MACHINE_BLOCK = registerBlock("machine_block",
+            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+
+    public static final RegistryObject<Block> ADVANCED_MACHINE_BLOCK = registerBlock("advanced_machine_block",
+            () -> new AdvancedMachineBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
         RegistryObject<T> toReturn = BLOCKS.register(name, block);
