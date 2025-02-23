@@ -12,10 +12,15 @@ public class ModBlockEntities {
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, DarksRandomMod.MOD_ID);
 
-    public static final RegistryObject<BlockEntityType<AdvancedMachineBlockBlockEntity>> ADVANCED_MACHINE_BLOCK_BE =
-            BLOCK_ENTITIES.register("gem_polishing_be", () ->
-                    BlockEntityType.Builder.of(AdvancedMachineBlockBlockEntity::new,
+    public static final RegistryObject<BlockEntityType<AdvancedMachineBlockEntity>> ADVANCED_MACHINE_BLOCK_BE =
+            BLOCK_ENTITIES.register("advanced_machine_block_be", () ->
+                    BlockEntityType.Builder.of(AdvancedMachineBlockEntity::new,
                             ModBlocks.ADVANCED_MACHINE_BLOCK.get()).build(null));
+
+    public static final RegistryObject<BlockEntityType<GeneratorBlockEntity>> GENERATOR_BLOCK_BE =
+            BLOCK_ENTITIES.register("generator_block_be", () ->
+                    BlockEntityType.Builder.of(GeneratorBlockEntity::new,
+                            ModBlocks.GENERATOR_BLOCK.get()).build(null));
 
 
     public static void register(IEventBus eventBus) {

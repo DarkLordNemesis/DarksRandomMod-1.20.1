@@ -46,7 +46,7 @@ public class MetalDetectorItem extends Item {
             }
 
             if(!foundBlock) {
-                player.sendSystemMessage(Component.literal("No Valuables Found"));
+                player.sendSystemMessage(Component.literal("No Valuables Found!"));
             }
         }
 

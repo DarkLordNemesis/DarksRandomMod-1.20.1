@@ -6,6 +6,8 @@ import net.DarkLordNemesis.DarksRandomMod.block.entity.ModBlockEntities;
 import net.DarkLordNemesis.DarksRandomMod.item.ModCreativeModeTabs;
 import net.DarkLordNemesis.DarksRandomMod.item.ModItems;
 import net.DarkLordNemesis.DarksRandomMod.screen.AdvancedMachineBlockScreen;
+import net.DarkLordNemesis.DarksRandomMod.screen.GeneratorBlockMenu;
+import net.DarkLordNemesis.DarksRandomMod.screen.GeneratorBlockScreen;
 import net.DarkLordNemesis.DarksRandomMod.screen.ModMenuTypes;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -75,6 +77,7 @@ public class DarksRandomMod {
         public static void onClientSetup(FMLClientSetupEvent event) {
 
             MenuScreens.register(ModMenuTypes.ADVACNED_MACHINE_BLOCK_MENU.get(), AdvancedMachineBlockScreen::new);
+            MenuScreens.register(ModMenuTypes.GENERATOR_BLOCK_MENU.get(), GeneratorBlockScreen::new);
         }
     }
 }

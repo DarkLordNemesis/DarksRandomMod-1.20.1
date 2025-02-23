@@ -17,6 +17,9 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<AdvancedMachineBlockMenu>> ADVACNED_MACHINE_BLOCK_MENU =
             registerMenuType("advanced_machine_block_menu", AdvancedMachineBlockMenu::new);
 
+    public static final RegistryObject<MenuType<GeneratorBlockMenu>> GENERATOR_BLOCK_MENU =
+            registerMenuType("generator_block_menu", GeneratorBlockMenu::new);
+
 
     private static <T extends AbstractContainerMenu>RegistryObject<MenuType<T>> registerMenuType(String name, IContainerFactory<T> factory) {
         return MENUS.register(name, () -> IForgeMenuType.create(factory));

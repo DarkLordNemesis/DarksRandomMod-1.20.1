@@ -2,6 +2,7 @@ package net.DarkLordNemesis.DarksRandomMod.block.entity;
 
 import net.DarkLordNemesis.DarksRandomMod.item.ModItems;
 import net.DarkLordNemesis.DarksRandomMod.screen.AdvancedMachineBlockMenu;
+import net.DarkLordNemesis.DarksRandomMod.util.CustomEnergyStorage;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
@@ -21,31 +22,37 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedMachineBlockBlockEntity extends BlockEntity implements MenuProvider {
+public class AdvancedMachineBlockEntity extends BlockEntity implements MenuProvider {
     private final ItemStackHandler itemHandler = new ItemStackHandler(2);
+    private final CustomEnergyStorage energyStorage = new CustomEnergyStorage(10000, 1000, 0);
+
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
 
     private LazyOptional<IItemHandler> lazyItemHandler = LazyOptional.empty();
+    private LazyOptional<EnergyStorage> lazyEnergyHandler = LazyOptional.empty();
 
     protected final ContainerData data;
     private int progress = 0;
-    private int maxProgress = 78;
+    private int maxProgress = 80;
 
-    public AdvancedMachineBlockBlockEntity(BlockPos pPos, BlockState pBlockState) {
+    public AdvancedMachineBlockEntity(BlockPos pPos, BlockState pBlockState) {
         super(ModBlockEntities.ADVANCED_MACHINE_BLOCK_BE.get(), pPos, pBlockState);
         this.data = new ContainerData() {
             @Override
             public int get(int pIndex) {
                 return switch (pIndex) {
-                    case 0 -> AdvancedMachineBlockBlockEntity.this.progress;
-                    case 1 -> AdvancedMachineBlockBlockEntity.this.maxProgress;
+                    case 0 -> AdvancedMachineBlockEntity.this.progress;
+                    case 1 -> AdvancedMachineBlockEntity.this.maxProgress;
+                    case 2 -> AdvancedMachineBlockEntity.this.energyStorage.getEnergyStored();
+                    case 3 -> AdvancedMachineBlockEntity.this.energyStorage.getMaxEnergyStored();
                     default -> 0;
                 };
             }
@@ -53,14 +60,16 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
             @Override
             public void set(int pIndex, int pValue) {
                 switch (pIndex) {
-                    case 0 -> AdvancedMachineBlockBlockEntity.this.progress = pValue;
-                    case 1 -> AdvancedMachineBlockBlockEntity.this.maxProgress = pValue;
+                    case 0 -> AdvancedMachineBlockEntity.this.progress = pValue;
+                    case 1 -> AdvancedMachineBlockEntity.this.maxProgress = pValue;
+                    case 2 -> AdvancedMachineBlockEntity.this.energyStorage.setEnergy(pValue);
+                    case 3 -> {} // Max energy is constant, no need to set it
                 }
             }
 
             @Override
             public int getCount() {
-                return 2;
+                return 4;
             }
         };
     }
@@ -69,8 +78,9 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
         if(cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
+        } else if (cap == ForgeCapabilities.ENERGY) {
+            return lazyEnergyHandler.cast();
         }
-
         return super.getCapability(cap, side);
     }
 
@@ -78,12 +88,14 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
     public void onLoad() {
         super.onLoad();
         lazyItemHandler = LazyOptional.of(() -> itemHandler);
+        lazyEnergyHandler = LazyOptional.of(() -> energyStorage);
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         lazyItemHandler.invalidate();
+        lazyEnergyHandler.invalidate();
     }
 
     public void drops() {
@@ -109,7 +121,7 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
     protected void saveAdditional(CompoundTag pTag) {
         pTag.put("inventory", itemHandler.serializeNBT());
         pTag.putInt("advanced_machine_block.progress", progress);
-
+        pTag.putInt("energy", energyStorage.getEnergyStored()); // Save energy
         super.saveAdditional(pTag);
     }
 
@@ -118,10 +130,12 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
         super.load(pTag);
         itemHandler.deserializeNBT(pTag.getCompound("inventory"));
         progress = pTag.getInt("advanced_machine_block.progress");
+        energyStorage.setEnergy(pTag.getInt("energy")); // Load energy
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        if(hasRecipe()) {
+        if(hasRecipe() && hasEnoughEnergy()) {
+            energyStorage.decreaseEnergy(2);
             increaseCraftingProgress();
             setChanged(pLevel, pPos, pState);
 
@@ -167,5 +181,10 @@ public class AdvancedMachineBlockBlockEntity extends BlockEntity implements Menu
 
     private void increaseCraftingProgress() {
         progress++;
+    }
+
+    private boolean hasEnoughEnergy() {
+        int energyRequiredPerTick = 2; // Adjust this value as needed
+        return energyStorage.getEnergyStored() >= energyRequiredPerTick;
     }
 }

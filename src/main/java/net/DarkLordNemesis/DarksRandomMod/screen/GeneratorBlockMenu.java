@@ -1,7 +1,7 @@
 package net.DarkLordNemesis.DarksRandomMod.screen;
 
 import net.DarkLordNemesis.DarksRandomMod.block.ModBlocks;
-import net.DarkLordNemesis.DarksRandomMod.block.entity.AdvancedMachineBlockEntity;
+import net.DarkLordNemesis.DarksRandomMod.block.entity.GeneratorBlockEntity;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -12,19 +12,19 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.items.SlotItemHandler;
 
-public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
-    public final AdvancedMachineBlockEntity blockEntity;
+public class GeneratorBlockMenu extends AbstractContainerMenu {
+    public final GeneratorBlockEntity blockEntity;
     private final Level level;
     private final ContainerData data;
 
-    public AdvancedMachineBlockMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
-        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(4));
+    public GeneratorBlockMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
+        this(pContainerId, inv, inv.player.level().getBlockEntity(extraData.readBlockPos()), new SimpleContainerData(2)); // Reduced data slots
     }
 
-    public AdvancedMachineBlockMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
-        super(ModMenuTypes.ADVACNED_MACHINE_BLOCK_MENU.get(), pContainerId);
-        checkContainerSize(inv, 2);
-        blockEntity = ((AdvancedMachineBlockEntity) entity);
+    public GeneratorBlockMenu(int pContainerId, Inventory inv, BlockEntity entity, ContainerData data) {
+        super(ModMenuTypes.GENERATOR_BLOCK_MENU.get(), pContainerId); // Use the correct menu type
+        checkContainerSize(inv, 1); // Check for 1 item slot
+        blockEntity = ((GeneratorBlockEntity) entity);
         this.level = inv.player.level();
         this.data = data;
 
@@ -32,8 +32,7 @@ public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
         addPlayerHotbar(inv);
 
         this.blockEntity.getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(iItemHandler -> {
-            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 11));
-            this.addSlot(new SlotItemHandler(iItemHandler, 1, 80, 59));
+            this.addSlot(new SlotItemHandler(iItemHandler, 0, 80, 35)); // Centered slot
         });
 
         addDataSlots(data);
@@ -41,11 +40,11 @@ public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
 
     // Add methods to get the energy level and max energy
     public int getEnergy() {
-        return data.get(2); // Assuming 2nd index in ContainerData is energy
+        return data.get(0); // Assuming 2nd index in ContainerData is energy
     }
 
     public int getMaxEnergy() {
-        return data.get(3); // Assuming 3rd index in ContainerData is max energy
+        return data.get(1); // Assuming 3rd index in ContainerData is max energy
     }
 
     // Get scaled energy bar height
@@ -57,17 +56,6 @@ public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
         return maxEnergy != 0 && energy != 0 ? (energy * energyBarHeight) / maxEnergy : 0;
     }
 
-    public boolean isCrafting() {
-        return data.get(0) > 0;
-    }
-
-    public int getScaledProgress() {
-        int progress = this.data.get(0);
-        int maxProgress = this.data.get(1);  // Max Progress
-        int progressArrowSize = 26; // This is the height in pixels of your arrow
-
-        return maxProgress != 0 && progress != 0 ? progress * progressArrowSize / maxProgress : 0;
-    }
 
     // CREDIT GOES TO: diesieben07 | https://github.com/diesieben07/SevenCommons
     // must assign a slot number to each of the slots used by the GUI.
@@ -85,7 +73,7 @@ public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
     private static final int TE_INVENTORY_FIRST_SLOT_INDEX = VANILLA_FIRST_SLOT_INDEX + VANILLA_SLOT_COUNT;
 
     // THIS YOU HAVE TO DEFINE!
-    private static final int TE_INVENTORY_SLOT_COUNT = 2;  // must be the number of slots you have!
+    private static final int TE_INVENTORY_SLOT_COUNT = 1;  // must be the number of slots you have!
     @Override
     public ItemStack quickMoveStack(Player playerIn, int pIndex) {
         Slot sourceSlot = slots.get(pIndex);
@@ -122,7 +110,7 @@ public class AdvancedMachineBlockMenu extends AbstractContainerMenu {
     @Override
     public boolean stillValid(Player pPlayer) {
         return stillValid(ContainerLevelAccess.create(level, blockEntity.getBlockPos()),
-                pPlayer, ModBlocks.ADVANCED_MACHINE_BLOCK.get());
+                pPlayer, ModBlocks.GENERATOR_BLOCK.get()); // Use the correct block
     }
 
     private void addPlayerInventory(Inventory playerInventory) {

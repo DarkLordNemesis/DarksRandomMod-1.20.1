@@ -1,6 +1,7 @@
 package net.DarkLordNemesis.DarksRandomMod.block.custom;
 
 import net.DarkLordNemesis.DarksRandomMod.block.entity.AdvancedMachineBlockEntity;
+import net.DarkLordNemesis.DarksRandomMod.block.entity.GeneratorBlockEntity;
 import net.DarkLordNemesis.DarksRandomMod.block.entity.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -24,8 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.network.NetworkHooks;
 import org.jetbrains.annotations.Nullable;
 
-public class AdvancedMachineBlock extends BaseEntityBlock {
-    public AdvancedMachineBlock(Properties pProperties) {
+public class GeneratorBlock extends BaseEntityBlock {
+    public GeneratorBlock(Properties pProperties) {
         super(pProperties);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH));
     }
@@ -51,29 +52,36 @@ public class AdvancedMachineBlock extends BaseEntityBlock {
         }
     }
 
-    @Override
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
+    }
+
+
+    @Nullable
+    @Override
+    public BlockEntity newBlockEntity(BlockPos blockPos, BlockState blockState) {
+        return new GeneratorBlockEntity(blockPos, blockState);
     }
 
     @Override
     public void onRemove(BlockState pState, Level pLevel, BlockPos pPos, BlockState pNewState, boolean pIsMoving) {
         if (pState.getBlock() != pNewState.getBlock()) {
             BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
-            if (blockEntity instanceof AdvancedMachineBlockEntity) {
-                ((AdvancedMachineBlockEntity) blockEntity).drops();
+            if (blockEntity instanceof GeneratorBlockEntity) {
+                ((GeneratorBlockEntity) blockEntity).drops();
             }
+            pLevel.removeBlockEntity(pPos); // Remove the block entity properly
         }
-
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
     }
+
 
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (!pLevel.isClientSide()) {
             BlockEntity entity = pLevel.getBlockEntity(pPos);
-            if(entity instanceof AdvancedMachineBlockEntity) {
-                NetworkHooks.openScreen(((ServerPlayer)pPlayer), (AdvancedMachineBlockEntity)entity, pPos);
+            if (entity instanceof GeneratorBlockEntity) {
+                NetworkHooks.openScreen(((ServerPlayer) pPlayer), (GeneratorBlockEntity) entity, pPos);
             } else {
                 throw new IllegalStateException("Our Container provider is missing!");
             }
@@ -84,18 +92,14 @@ public class AdvancedMachineBlock extends BaseEntityBlock {
 
     @Nullable
     @Override
-    public BlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
-        return new AdvancedMachineBlockEntity(pPos, pState);
-    }
-
-    @Nullable
-    @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level pLevel, BlockState pState, BlockEntityType<T> pBlockEntityType) {
-        if(pLevel.isClientSide()) {
+        if (pLevel.isClientSide()) {
             return null;
         }
 
-        return createTickerHelper(pBlockEntityType, ModBlockEntities.ADVANCED_MACHINE_BLOCK_BE.get(),
+        return createTickerHelper(pBlockEntityType, ModBlockEntities.GENERATOR_BLOCK_BE.get(),
                 (pLevel1, pPos, pState1, pBlockEntity) -> pBlockEntity.tick(pLevel1, pPos, pState1));
     }
+
+
 }
