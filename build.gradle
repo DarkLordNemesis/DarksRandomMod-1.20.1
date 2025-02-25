@@ -140,7 +140,8 @@ dependencies {
     // Mekanism
     implementation fg.deobf("curse.maven:mekanism-268560:6123077")
 
-    // Jade
+    // The One Probe
+    implementation fg.deobf("curse.maven:the-one-probe-245211:6106996")
 
     // Example mod dependency with JEI - using fg.deobf() ensures the dependency is remapped to your development mappings
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime

@@ -24,6 +24,8 @@ public class ModBlockStateProvider extends BlockStateProvider {
 
         blockWithItem(ModBlocks.SOUND_BLOCK);
 
+        blockWithItem(ModBlocks.MULTIBLOCK_PART_BLOCK);
+
 
         simpleBlockWithItem(ModBlocks.MACHINE_BLOCK.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/machine_block"))
@@ -36,6 +38,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
         simpleBlockWithItem(ModBlocks.GENERATOR_BLOCK.get(),
                 new ModelFile.UncheckedModelFile(modLoc("block/generator_block"))
         );
+
 
 
 

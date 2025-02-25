@@ -33,6 +33,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModBlocks.MACHINE_BLOCK.get());
                         output.accept(ModBlocks.ADVANCED_MACHINE_BLOCK.get());
                         output.accept(ModBlocks.GENERATOR_BLOCK.get());
+                        output.accept(ModBlocks.MULTIBLOCK_PART_BLOCK.get());
 
                     })
                     .build());

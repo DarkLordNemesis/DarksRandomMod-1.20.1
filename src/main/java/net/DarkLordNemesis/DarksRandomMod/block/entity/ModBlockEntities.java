@@ -22,6 +22,14 @@ public class ModBlockEntities {
                     BlockEntityType.Builder.of(GeneratorBlockEntity::new,
                             ModBlocks.GENERATOR_BLOCK.get()).build(null));
 
+    public static final RegistryObject<BlockEntityType<MultiblockPartBlockEntity>> MULTIBLOCK_PART =
+            BLOCK_ENTITIES.register("multiblock_part",
+                    () -> BlockEntityType.Builder.of(
+                            MultiblockPartBlockEntity::new,
+                            ModBlocks.MULTIBLOCK_PART_BLOCK.get() // Register this block in ModBlocks
+                    ).build(null)
+            );
+
 
     public static void register(IEventBus eventBus) {
         BLOCK_ENTITIES.register(eventBus);

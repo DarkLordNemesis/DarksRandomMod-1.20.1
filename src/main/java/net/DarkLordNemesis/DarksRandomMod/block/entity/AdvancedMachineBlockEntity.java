@@ -63,7 +63,8 @@ public class AdvancedMachineBlockEntity extends BlockEntity implements MenuProvi
                     case 0 -> AdvancedMachineBlockEntity.this.progress = pValue;
                     case 1 -> AdvancedMachineBlockEntity.this.maxProgress = pValue;
                     case 2 -> AdvancedMachineBlockEntity.this.energyStorage.setEnergy(pValue);
-                    case 3 -> {} // Max energy is constant, no need to set it
+                    case 3 -> {
+                    } // Max energy is constant, no need to set it
                 }
             }
 
@@ -76,7 +77,7 @@ public class AdvancedMachineBlockEntity extends BlockEntity implements MenuProvi
 
     @Override
     public @NotNull <T> LazyOptional<T> getCapability(@NotNull Capability<T> cap, @Nullable Direction side) {
-        if(cap == ForgeCapabilities.ITEM_HANDLER) {
+        if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return lazyItemHandler.cast();
         } else if (cap == ForgeCapabilities.ENERGY) {
             return lazyEnergyHandler.cast();
@@ -100,7 +101,7 @@ public class AdvancedMachineBlockEntity extends BlockEntity implements MenuProvi
 
     public void drops() {
         SimpleContainer inventory = new SimpleContainer(itemHandler.getSlots());
-        for(int i = 0; i < itemHandler.getSlots(); i++) {
+        for (int i = 0; i < itemHandler.getSlots(); i++) {
             inventory.setItem(i, itemHandler.getStackInSlot(i));
         }
         Containers.dropContents(this.level, this.worldPosition, inventory);
@@ -134,18 +135,20 @@ public class AdvancedMachineBlockEntity extends BlockEntity implements MenuProvi
     }
 
     public void tick(Level pLevel, BlockPos pPos, BlockState pState) {
-        if(hasRecipe() && hasEnoughEnergy()) {
-            energyStorage.decreaseEnergy(2);
-            increaseCraftingProgress();
-            setChanged(pLevel, pPos, pState);
+        if (hasRecipe()) {
+            if (hasEnoughEnergy()) {
+                energyStorage.decreaseEnergy(2);
+                increaseCraftingProgress();
+                setChanged(pLevel, pPos, pState);
 
-            if(hasProgressFinished()) {
-                craftItem();
-                resetProgress();
+                if (hasProgressFinished()) {
+                    craftItem();
+                    resetProgress();
+                }
             }
         } else {
             resetProgress();
-        }
+            }
     }
 
     private void resetProgress() {

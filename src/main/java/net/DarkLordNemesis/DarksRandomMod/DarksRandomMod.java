@@ -1,6 +1,7 @@
 package net.DarkLordNemesis.DarksRandomMod;
 
 import com.mojang.logging.LogUtils;
+import mcjty.theoneprobe.commands.ModCommands;
 import net.DarkLordNemesis.DarksRandomMod.block.ModBlocks;
 import net.DarkLordNemesis.DarksRandomMod.block.entity.ModBlockEntities;
 import net.DarkLordNemesis.DarksRandomMod.item.ModCreativeModeTabs;
@@ -14,6 +15,7 @@ import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,13 +48,17 @@ public class DarksRandomMod {
 
         modEventBus.addListener(this::commonSetup);
 
+        // Register the command event listener
         MinecraftForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
+
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
 
     }
+
+
 
     // Add the example block item to the building blocks tab
     private void addCreative(BuildCreativeModeTabContentsEvent event) {
@@ -62,6 +68,12 @@ public class DarksRandomMod {
             event.accept(ModItems.RAW_SAPPHIRE);
         }
 
+    }
+
+    // Register commands
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        ModCommands.register(event.getDispatcher());
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

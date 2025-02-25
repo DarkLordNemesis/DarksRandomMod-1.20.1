@@ -1,9 +1,7 @@
 package net.DarkLordNemesis.DarksRandomMod.block;
 
 import net.DarkLordNemesis.DarksRandomMod.DarksRandomMod;
-import net.DarkLordNemesis.DarksRandomMod.block.custom.AdvancedMachineBlock;
-import net.DarkLordNemesis.DarksRandomMod.block.custom.GeneratorBlock;
-import net.DarkLordNemesis.DarksRandomMod.block.custom.SoundBlock;
+import net.DarkLordNemesis.DarksRandomMod.block.custom.*;
 import net.DarkLordNemesis.DarksRandomMod.item.ModItems;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -33,13 +31,16 @@ public static final RegistryObject<Block> SAPPHIRE_BLOCK = registerBlock("sapphi
             () -> new SoundBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> MACHINE_BLOCK = registerBlock("machine_block",
-            () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
+            () -> new MachineBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)));
 
     public static final RegistryObject<Block> ADVANCED_MACHINE_BLOCK = registerBlock("advanced_machine_block",
             () -> new AdvancedMachineBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
     public static final RegistryObject<Block> GENERATOR_BLOCK = registerBlock("generator_block",
             () -> new GeneratorBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
+
+    public static final RegistryObject<Block> MULTIBLOCK_PART_BLOCK = registerBlock("multiblock_part_block",
+            () -> new MultiblockPartBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK).noOcclusion()));
 
 
     private static <T extends Block> RegistryObject<T> registerBlock(String name, Supplier<T> block) {
