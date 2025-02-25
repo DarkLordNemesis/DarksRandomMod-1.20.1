@@ -64,9 +64,17 @@ public class ScanStructureCommand {
                         System.out.print(", ");
                     }
                 }
-                System.out.println("},");
+                if (x < depth - 1) {
+                    System.out.println("},");
+                } else{
+                    System.out.println("}");
+                }
             }
-            System.out.println("},");
+            if (y < depth - 1) {
+                System.out.println("},");
+            } else{
+                System.out.println("}");
+            }
         }
 
         // Save the structure to a file in the desired format
@@ -89,9 +97,17 @@ public class ScanStructureCommand {
                             writer.write(", ");
                         }
                     }
-                    writer.write("},\n");
+                    if (x < depth - 1) {
+                        writer.write("},\n");
+                    } else{
+                        writer.write("}\n");
+                    }
                 }
-                writer.write("},\n");
+                if (y < depth - 1) {
+                    writer.write("},\n");
+                } else{
+                    writer.write("}\n");
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
